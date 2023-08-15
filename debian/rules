@@ -1,4 +1,20 @@
 #!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#export DH_VERBOSE = 1
+
+export PYBUILD_NAME=unicodedata2
 
 %:
-	dh $@
+	dh $@ --with python3 --buildsystem=pybuild
+
+execute_before_dh_auto_build:
+	# Generate unicode data headers
+	mkdir -p data
+	unicode_ver=`dpkg -s unicode-data | grep '^Version: ' | sed 's/^Version: \(.*\)-.*$$/\1/'`; \
+	for i in `ls /usr/share/unicode/*.txt | xargs -n1 basename`; do \
+		ln -s "/usr/share/unicode/$${i}" "data/$${i%.txt}-$${unicode_ver}.txt" ; \
+	done
+	bunzip2 -ckd /usr/share/unicode/Unihan_NumericValues.txt.bz2 > data/Unihan_NumericValues.txt
+	python3 makeunicodedata.py
+	rm -rf data

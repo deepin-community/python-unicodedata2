@@ -1,0 +1,3 @@
+0001_read_unihan_from_debian_package.patch
+0002_use_ucd_3_2_0_from_python_stdlib.patch
+0003_avoid_network_access.patch

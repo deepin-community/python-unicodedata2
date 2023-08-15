@@ -1,0 +1,28 @@
+From: =?utf-8?b?IllhbyBXZWkgKOmtj+mKmOW7tyki?= <mwei@debian.org>
+Date: Tue, 15 Feb 2022 09:56:04 +0800
+Subject: Read Unihan_NumericValues.txt from local Debian package
+
+---
+ makeunicodedata.py | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/makeunicodedata.py b/makeunicodedata.py
+index 6dd8444..75c899e 100644
+--- a/makeunicodedata.py
++++ b/makeunicodedata.py
+@@ -1117,13 +1117,8 @@ class UnicodeData:
+             if table[i] is not None:
+                 table[i] = table[i]._replace(quick_check=quickchecks[i])
+ 
+-        with open_data(UNIHAN, version) as file:
+-            zip = zipfile.ZipFile(file)
+-            if version == '3.2.0':
+-                data = zip.open('Unihan-3.2.0.txt').read()
+-            else:
+-                data = zip.open('Unihan_NumericValues.txt').read()
+-        for line in data.decode("utf-8").splitlines():
++        data = open(os.path.join(DATA_DIR, 'Unihan_NumericValues.txt'), encoding='utf-8')
++        for line in data.readlines():
+             if not line.startswith('U+'):
+                 continue
+             code, tag, value = line.split(None, 3)[:3]

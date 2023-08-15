@@ -1,0 +1,69 @@
+From: =?utf-8?b?IllhbyBXZWkgKOmtj+mKmOW7tyki?= <mwei@debian.org>
+Date: Tue, 15 Feb 2022 09:56:27 +0800
+Subject: Use ucd_3_2_0 from python standard library
+
+---
+ makeunicodedata.py         |  2 +-
+ unicodedata2/unicodedata.c | 15 ++++++++++-----
+ 2 files changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/makeunicodedata.py b/makeunicodedata.py
+index 75c899e..9d93a0e 100644
+--- a/makeunicodedata.py
++++ b/makeunicodedata.py
+@@ -65,7 +65,7 @@ PUA_16 = range(0x100000, 0x10FFFE)
+ NAME_ALIASES_START = 0xF0000
+ NAMED_SEQUENCES_START = 0xF0200
+ 
+-old_versions = ["3.2.0"]
++old_versions = []
+ 
+ CATEGORY_NAMES = [ "Cn", "Lu", "Ll", "Lt", "Mn", "Mc", "Me", "Nd",
+     "Nl", "No", "Zs", "Zl", "Zp", "Cc", "Cf", "Cs", "Co", "Cn", "Lm",
+diff --git a/unicodedata2/unicodedata.c b/unicodedata2/unicodedata.c
+index 2c2ca05..cbff807 100644
+--- a/unicodedata2/unicodedata.c
++++ b/unicodedata2/unicodedata.c
+@@ -105,6 +105,7 @@ static PyMemberDef DB_members[] = {
+ static PyTypeObject UCD_Type;
+ #define UCD_Check(o) (Py_TYPE(o)==&UCD_Type)
+ 
++#if 0
+ static PyObject*
+ new_previous_version(const char*name, const change_record* (*getrecord)(Py_UCS4),
+                      Py_UCS4 (*normalization)(Py_UCS4))
+@@ -118,6 +119,7 @@ new_previous_version(const char*name, const change_record* (*getrecord)(Py_UCS4)
+         self->normalization = normalization;
+         return (PyObject*)self;
+ }
++#endif
+ 
+ 
+ #ifdef PYPY_VERSION
+@@ -1368,7 +1370,7 @@ static struct PyModuleDef unicodedatamodule = {
+ PyMODINIT_FUNC
+ PyInit_unicodedata2(void)
+ {
+-    PyObject *m, *v;
++    PyObject *m, *u, *v;
+ 
+     Py_SET_TYPE(&UCD_Type, &PyType_Type);
+ 
+@@ -1380,10 +1382,13 @@ PyInit_unicodedata2(void)
+     Py_INCREF(&UCD_Type);
+     PyModule_AddObject(m, "UCD", (PyObject*)&UCD_Type);
+ 
+-    /* Previous versions */
+-    v = new_previous_version("3.2.0", get_change_3_2_0, normalization_3_2_0);
+-    if (v != NULL)
+-        PyModule_AddObject(m, "ucd_3_2_0", v);
++    /* Import ucd_3_2_0 from unicodedata */
++    u = PyImport_ImportModule("unicodedata");
++    if (u != NULL) {
++        v = PyObject_GetAttrString(u, "ucd_3_2_0");
++        if (v != NULL)
++            PyModule_AddObject(m, "ucd_3_2_0", v);
++    }
+ 
+     /* Export C API */
+     // v = PyCapsule_New((void *)&hashAPI, PyUnicodeData_CAPSULE_NAME, NULL);

@@ -1,0 +1,28 @@
+From: =?utf-8?b?IllhbyBXZWkgKOmtj+mKmOW7tyki?= <mwei@debian.org>
+Date: Sat, 5 Mar 2022 08:34:41 +0800
+Subject: avoid network access
+
+---
+ makeunicodedata.py | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/makeunicodedata.py b/makeunicodedata.py
+index 9d93a0e..261d73a 100644
+--- a/makeunicodedata.py
++++ b/makeunicodedata.py
+@@ -889,14 +889,7 @@ DATA_DIR = os.path.join('data')
+ def open_data(template, version):
+     local = os.path.join(DATA_DIR, template % ('-'+version,))
+     if not os.path.exists(local):
+-        import urllib.request
+-        if version == '3.2.0':
+-            # irregular url structure
+-            url = ('http://www.unicode.org/Public/3.2-Update/'+template) % ('-'+version,)
+-        else:
+-            url = ('http://www.unicode.org/Public/%s/ucd/'+template) % (version, '')
+-        os.makedirs(DATA_DIR, exist_ok=True)
+-        urllib.request.urlretrieve(url, filename=local)
++        raise Exception(f'file not found: {local}')
+     if local.endswith('.txt'):
+         return open(local, encoding='utf-8')
+     else:
