@@ -1,3 +1,16 @@
+python-unicodedata2 (15.1.0+ds-1) unstable; urgency=medium
+
+  * Team upload.
+  * d/watch: Clean up with repacksuffix.
+  * New upstream version 15.1.0+ds. (Closes: #1052767)
+  * Build with current unicode-data. (Closes: #1052287)
+  * Clean generated .h files. (Closes: #1045417)
+
+  [ Debian Janitor ]
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository-Browse.
+
+ -- Bastian Germann <bage@debian.org>  Fri, 06 Oct 2023 10:01:35 +0000
+
 python-unicodedata2 (14.0.0+ds2-1) unstable; urgency=high
 
   * Team upload.

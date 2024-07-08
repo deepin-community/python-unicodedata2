@@ -39,7 +39,7 @@ index 2c2ca05..cbff807 100644
 +#endif
  
  
- #ifdef PYPY_VERSION
+ /* --- Module API --------------------------------------------------------- */
 @@ -1368,7 +1370,7 @@ static struct PyModuleDef unicodedatamodule = {
  PyMODINIT_FUNC
  PyInit_unicodedata2(void)
