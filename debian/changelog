@@ -1,3 +1,9 @@
+python-unicodedata2 (14.0.0+ds2-1deepin1) unstable; urgency=medium
+
+  * No source change upload against python 3.12.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Mon, 08 Jul 2024 09:56:22 +0200
+
 python-unicodedata2 (14.0.0+ds2-1) unstable; urgency=high
 
   * Team upload.
