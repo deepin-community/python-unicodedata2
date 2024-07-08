@@ -18,3 +18,6 @@ execute_before_dh_auto_build:
 	bunzip2 -ckd /usr/share/unicode/Unihan_NumericValues.txt.bz2 > data/Unihan_NumericValues.txt
 	python3 makeunicodedata.py
 	rm -rf data
+
+override_dh_gencontrol:
+	dh_gencontrol -- -VBuilt-Using="$(shell dpkg-query -f '$${source:Package} (= $${source:Version}), ' -W unicode-data)"

@@ -12,7 +12,7 @@ index 6dd8444..75c899e 100644
 +++ b/makeunicodedata.py
 @@ -1117,13 +1117,8 @@ class UnicodeData:
              if table[i] is not None:
-                 table[i] = table[i]._replace(quick_check=quickchecks[i])
+                 table[i].quick_check = quickchecks[i]
  
 -        with open_data(UNIHAN, version) as file:
 -            zip = zipfile.ZipFile(file)

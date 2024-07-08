@@ -14,7 +14,7 @@ Build-Depends:
  python3-pytest <!nocheck>,
  python3-pytest-xdist <!nocheck>,
  python3-coverage <!nocheck>,
- unicode-data (>= 15.0.0),
+ unicode-data (>= 15.1.0),
 Standards-Version: 4.6.1
 Homepage: https://github.com/fonttools/unicodedata2
 Vcs-Browser: https://salsa.debian.org/fonts-team/python-unicodedata2
@@ -25,6 +25,6 @@ Rules-Requires-Root: no
 Package: python3-unicodedata2
 Architecture: any
 Depends: ${shlibs:Depends}, ${python3:Depends}, ${misc:Depends}
-Built-Using: unicode-data (= 15.0.0-1)
+Built-Using: ${Built-Using}
 Description: Python unicodedata backport/updates
  This package provides backports and updates to Python's standard unicodedata.
